@@ -1,1 +1,11 @@
 # infinitemonkey
+
+The infinite monkey theorem is a hypothesis that states that an infinite number of monkeys, given an infinite amount of time and typewriters, would eventually produce the complete works of William Shakespeare or any other written text[1]. The idea behind the theorem is that given enough time and randomness, even highly improbable events can occur. The earliest known reference to the idea of monkeys typing at random comes from a 1913 essay by French mathematician Émile Borel, who used the concept to illustrate the concept of probability.
+
+The statistical proof of the theorem can be explained in a basic form as if two events are statistically independent (the events do not affect each others outcome), the probability of these two events occurring together is equal to the product of the probabilities of these events occurring separately.
+
+In fact, it can also be said that this theorem also points us to the Gambler's Fallacy[2], a logical fallacy that many people fall victim to. To illustrate this fallacy, consider the classical coin toss experiment. Most people assume that because a coin has come up heads several times in a row, it's more likely to come up tails in the next flip. However, it is absolutely impossible to know this for sure. After all, the probability for each independent flip is always 50%. Of course, this only applies if the coin is not cheated.
+
+Now, I am going to create a monkey to implement this theorem in R. This monkey is of course a function. Then I will try to randomly print some text to this monkey.
+
+I think it is a good coding exercise to put some theorems, thought experiments, ideas into code. "Thinking like a machine" can be the most important component to turn the ideas in your mind into code. So, if you are faced with a task that you have never encountered before and you don't know what to do, instead of struggling with writing the code, you can create a roadmap for yourself. This roadmap will actually "code" your coding skills. In this project, I will also show how I cope with this situation.
