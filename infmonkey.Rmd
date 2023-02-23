@@ -1,0 +1,178 @@
+---
+title: "infinite monkey theorem"
+author: "Fatih Emre Ozturk"
+date: ""
+output: 
+  html_document:
+    theme: cerulean
+---
+
+The infinite monkey theorem is a hypothesis that states that an infinite number of monkeys, given an infinite amount of time and typewriters, would eventually produce the complete works of William Shakespeare or any other written text[1]. The idea behind the theorem is that given enough time and randomness, even highly improbable events can occur. The earliest known reference to the idea of monkeys typing at random comes from a 1913 essay by French mathematician Émile Borel, who used the concept to illustrate the concept of probability.
+
+The statistical proof of the theorem can be explained in a basic form as if two events are statistically independent (the events do not affect each others outcome), the probability of these two events occurring together is equal to the product of the probabilities of these events occurring separately.
+
+In fact, it can also be said that this theorem also points us to the Gambler's Fallacy[2], a logical fallacy that many people fall victim to. To illustrate this fallacy, consider the classical coin toss experiment. Most people assume that because a coin has come up heads several times in a row, it's more likely to come up tails in the next flip. However, it is absolutely impossible to know this for sure. After all, the probability for each independent flip is always 50%. Of course, this only applies if the coin is not cheated.
+
+Now, I am going to create a monkey to implement this theorem in R. This monkey is of course a function. Then I will try to randomly print some text to this monkey.
+
+I think it is a good coding exercise to put some theorems, thought experiments, ideas into code. "Thinking like a machine" can be the most important component to turn the ideas in your mind into code. So, if you are faced with a task that you have never encountered before and you don't know what to do, instead of struggling with writing the code, you can create a roadmap for yourself. This roadmap will actually "code" your coding skills. In this project, I will also show how I cope with this situation.
+
+What do I need to do to code the infinite monkey theory?
+
+Of course, I need the monkey! Lets create our monkey that randomly hits keys on a typewriter.
+
+```{r}
+monkey_the_author <- function(passage) {
+  chars <- c(letters, " ")
+  paste0(sample(chars, length(passage[1]), replace = TRUE), collapse = "")
+}
+```
+
+After I have monkey, I need to do the experiment. Let's start with a simple single word, `monkey`.
+
+To wrote this code, basically, I can say that I think in this way:
+
+*I have a monkey that hits random keys. I'm going to ask this monkey to type a certain text, so I know the length of this text, I know the content of this text. When the monkey presses random keys, I have to make sure that the key it presses is the same as my target passage. And I have to keep doing this until the condition I want is met. So instead of for, I need to use a repeat loop. And the end of this loop is when the monkey reaches the final text.*
+
+To make it easy to understand, I wrote explanation about what each line does in code chunk!
+
+```{r}
+passage1 <- ("monkey")
+
+count <- 0 # I want to know how many hits the monkey needed to write the passage.
+set.seed(123)
+repeat { # I will use repeat loop because the loop has to continue until the condition I want is met.
+  count <- count + 1
+  test_passage <- rep("", length(passage1)) # vector to store the generated text.
+  for (i in 1:length(passage1)) { # iterate through each line 
+    for (j in 1:nchar(passage1[[i]])) { # iterate through each character
+      test_char <- monkey_the_author(passage1) # monkey hits
+      # for each character, the loop generates random strings until a character that matches the corresponding character in the target text is found.
+      while (test_char != substr(passage1[[i]], j, j)) { # it uses the substr function to extract the character from the target text and compare it to the generated character.
+        test_char <- monkey_the_author(passage1) # if the generated character does not match the target character, the loop generates another random string and continues until a match is found
+        count <- count + 1 # to keep track of the number of attempts required
+      }
+      test_passage[i] <- paste0(test_passage[i], test_char) # Once a match is found, the loop concatenates the matched character to the current line
+    }
+  }
+  if (identical(test_passage, passage1)) { # If the entire test_passage vector matches the passage vector
+    break # the loop breaks
+  }
+}
+```
+
+Experiment is over. Now, let us check whether the entire test_passage matches the original passage.
+
+```{r}
+test_passage
+```
+
+Now, let us see how many attempts required to generate the target passage. test_passage
+
+```{r echo=FALSE}
+cat("It took", count, "attempts to generate the target passage.")
+```
+
+Now, let me repeat the experiment with a more compllicated passage: "monkey wrote this passage"
+
+```{r}
+passage2 <- ("monkey wrote this passage")
+
+# again, the same processes
+
+count2 <- 0
+set.seed(122)
+repeat {
+  count2 <- count2 + 1
+  test_passage2 <- rep("", length(passage2))
+  for (i in 1:length(passage2)) {
+    for (j in 1:nchar(passage2[[i]])) {
+      test_char2 <- monkey_the_author(passage2)
+      while (test_char2 != substr(passage2[[i]], j, j)) {
+        test_char2 <- monkey_the_author(passage2)
+        count2 <- count2 + 1
+      }
+      test_passage2[i] <- paste0(test_passage2[i], test_char2)
+    }
+  }
+  if (identical(test_passage2, passage2)) {
+    break
+  }
+}
+```
+
+Let us check whether the entire test_passage matches the original passage.
+
+```{r}
+test_passage2
+```
+
+Let us see how many attempts required to generate the target passage
+
+```{r echo=FALSE}
+cat("It took", count2, "attempts to generate the target passage.")
+```
+
+As the number of words in the passage that the monkeys are asked to write increases, the number of iterations in the loop, i.e. the number of attemps required, will also increase. This inevitable relationship is actually the basis of the theorem. However, this theorem can also be interpreted in another way. For example, it took 148 attempts for monkeys to type the word `monkey` by pressing random keys. What would happen if I used a for loop instead of repeat and iterated the loop 147 times?
+
+Yes, sometimes a certain number of iterations will be enough to achieve the goal. But the thing to never forget is the real key to success: keep going until the condition is met! Repeat doing what you need to do to get what you want, until you get what you want! If you are struggling to achieve something you want to achieve and you can't get it even after countless attempts, you either don't have enough time or you don't have enough resources. Keep trying, get the resources you need (try a repeat loop instead of a for loop), and eventually you will succeed!
+
+Let's end this project with the output of the code whose input I have hidden. Let's see what the monkeys wrote for us[3] this time.
+
+```{r include=FALSE}
+passage3 <- ("i am the master of my fate")
+
+count3 <- 0
+set.seed(321)
+repeat {
+  count3 <- count3 + 1
+  test_passage3 <- rep("", length(passage3))
+  for (i in 1:length(passage3)) {
+    for (j in 1:nchar(passage3[[i]])) {
+      test_char3 <- monkey_the_author(passage3)
+      while (test_char3 != substr(passage3[[i]], j, j)) {
+        test_char3 <- monkey_the_author(passage3)
+        count3 <- count3 + 1
+      }
+      test_passage3[i] <- paste0(test_passage3[i], test_char3)
+    }
+  }
+  if (identical(test_passage3, passage3)) {
+    break
+  }
+}
+
+passage4 <- ("i am the captain of my soul")
+count4 <- 0
+set.seed(321)
+repeat {
+  count4 <- count4 + 1
+  test_passage4 <- rep("", length(passage4))
+  for (i in 1:length(passage4)) {
+    for (j in 1:nchar(passage4[[i]])) {
+      test_char4 <- monkey_the_author(passage4)
+      while (test_char4 != substr(passage4[[i]], j, j)) {
+        test_char4 <- monkey_the_author(passage4)
+        count4 <- count3 + 1
+      }
+      test_passage4[i] <- paste0(test_passage4[i], test_char4)
+    }
+  }
+  if (identical(test_passage4, passage4)) {
+    break
+  }
+}
+```
+
+```{r echo=FALSE}
+cat(test_passage3,"\n", test_passage4)
+```
+
+
+**References** 
+
+[1] Crowley, John. "The Million Monkeys of M. Borel." Conjunctions 67 (2016): 57-60.
+
+[2] <https://yourlogicalfallacyis.com/the-gamblers-fallacy>
+
+[3] https://www.poetryfoundation.org/poems/51642/invictus
